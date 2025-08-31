@@ -38,7 +38,17 @@
                                 <div class="form-text">{{ form.title.help_text }}</div>
                             {% endif %}
                         </div>
-                        
+
+                        <div class="mb-3">
+                            <label for="{{ form.slug.id_for_label }}" class="form-label">
+                                {{ form.slug.label }}
+                            </label>
+                            {{ form.slug }}
+                            {% if form.slug.help_text %}
+                                <div class="form-text">{{ form.slug.help_text }}</div>
+                            {% endif %}
+                        </div>
+
                         <div class="mb-3">
                             <label for="{{ form.content.id_for_label }}" class="form-label">
                                 {{ form.content.label }}
@@ -48,9 +58,29 @@
                                 <div class="form-text">{{ form.content.help_text }}</div>
                             {% endif %}
                         </div>
+
+                        <div class="mb-3">
+                            <label for="{{ form.category.id_for_label }}" class="form-label">
+                                {{ form.category.label }}
+                            </label>
+                            {{ form.category }}
+                            {% if form.category.help_text %}
+                                <div class="form-text">{{ form.category.help_text }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="{{ form.tags.id_for_label }}" class="form-label">
+                                {{ form.tags.label }}
+                            </label>
+                            {{ form.tags }}
+                            {% if form.tags.help_text %}
+                                <div class="form-text">{{ form.tags.help_text }}</div>
+                            {% endif %}
+                        </div>
                         
                         <div class="d-flex justify-content-between">
-                            <a href="{% url 'post-list' %}" class="btn btn-outline-secondary">
+                            <a href="{% url 'home' %}" class="btn btn-outline-secondary">
                                 <i class="fas fa-arrow-left"></i> Cancel
                             </a>
                             <button type="submit" class="btn btn-primary">

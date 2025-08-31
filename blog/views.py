@@ -20,7 +20,7 @@ class PostListView(ListView):
 
 class UserPostListView(ListView):
     model = Post
-    template_name = 'blog/user_posts.html'
+    template_name = 'user_posts.html'
     context_object_name = 'posts'
     paginate_by = 5
 
@@ -31,13 +31,13 @@ class UserPostListView(ListView):
 
 class PostDetailView(DetailView):
     model = Post
-    template_name = 'blog/post_detail.html'
+    template_name = 'post_detail.html'
 
 
 class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
     form_class = PostForm
-    template_name = 'blog/post_create.html'
+    template_name = 'post_create.html'
 
     def form_valid(self, form):
         form.instance.author = self.request.user
@@ -47,7 +47,7 @@ class PostCreateView(LoginRequiredMixin, CreateView):
 class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Post
     form_class = PostForm
-    template_name = 'blog/post_update.html'
+    template_name = 'post_update.html'
 
     def form_valid(self, form):
         form.instance.author = self.request.user
@@ -60,7 +60,7 @@ class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
 class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Post
-    template_name = 'blog/post_delete.html'
+    template_name = 'post_delete.html'
     success_url = reverse_lazy('home')
 
     def test_func(self):
@@ -70,7 +70,7 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
 class TagPostListView(ListView):
     model = Post
-    template_name = 'blog/tag_posts.html'
+    template_name = 'tag_posts.html'
     context_object_name = 'posts'
     paginate_by = 5
 
@@ -86,7 +86,7 @@ class TagPostListView(ListView):
 
 class SearchPostListView(ListView):
     model = Post
-    template_name = 'blog/search_results.html'
+    template_name = 'search_results.html'
     context_object_name = 'posts'
     paginate_by = 5
 
@@ -108,7 +108,7 @@ class SearchPostListView(ListView):
 
 class CategoryPostListView(ListView):
     model = Post
-    template_name = 'blog/category_posts.html'
+    template_name = 'category_posts.html'
     context_object_name = 'posts'
     paginate_by = 5
 
@@ -127,7 +127,7 @@ class CategoryPostListView(ListView):
 class CommentCreateView(LoginRequiredMixin, CreateView):
     model = Comment
     fields = ['content']
-    template_name = 'blog/comment_form.html'
+    template_name = 'comment_form.html'
 
     def form_valid(self, form):
         form.instance.author = self.request.user

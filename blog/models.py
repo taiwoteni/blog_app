@@ -13,7 +13,7 @@ class Category(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        return reverse('category-posts', kwargs={'slug': self.slug})
+        return reverse('category_posts', kwargs={'slug': self.slug})
 
 
 class Post(models.Model):
@@ -29,7 +29,7 @@ class Post(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return reverse('post-detail', kwargs={'slug': self.slug})
+        return reverse('post_detail', kwargs={'slug': self.slug})
 
 
 class Comment(models.Model):
