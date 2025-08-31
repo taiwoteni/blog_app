@@ -6,13 +6,13 @@ from django.views.generic import (
 )
 from django.urls import reverse_lazy
 from django.db.models import Q
-from .models import Post
+from .models import Post, Category, Comment
 from .forms import PostForm
 
 
 class PostListView(ListView):
     model = Post
-    template_name = 'blog/home.html'
+    template_name = 'home.html'
     context_object_name = 'posts'
     ordering = ['-date_posted']
     paginate_by = 5
@@ -61,7 +61,7 @@ class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Post
     template_name = 'blog/post_delete.html'
-    success_url = reverse_lazy('blog-home')
+    success_url = reverse_lazy('home')
 
     def test_func(self):
         post = self.get_object()
@@ -104,3 +104,35 @@ class SearchPostListView(ListView):
         context = super().get_context_data(**kwargs)
         context['query'] = self.request.GET.get('q', '')
         return context
+
+
+class CategoryPostListView(ListView):
+    model = Post
+    template_name = 'blog/category_posts.html'
+    context_object_name = 'posts'
+    paginate_by = 5
+
+    def get_queryset(self):
+        category_slug = self.kwargs.get('slug')
+        category = get_object_or_404(Category, slug=category_slug)
+        return Post.objects.filter(category=category).order_by('-date_posted')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        category_slug = self.kwargs.get('slug')
+        context['category'] = get_object_or_404(Category, slug=category_slug)
+        return context
+
+
+class CommentCreateView(LoginRequiredMixin, CreateView):
+    model = Comment
+    fields = ['content']
+    template_name = 'blog/comment_form.html'
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        form.instance.post = get_object_or_404(Post, slug=self.kwargs.get('slug'))
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse_lazy('post_detail', kwargs={'slug': self.kwargs.get('slug')})
